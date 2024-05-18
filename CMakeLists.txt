@@ -11,15 +11,6 @@ set(PRINT_VERSION\${PRINT_VERSION_MAJOR}.${PRINT_VERSION_MINOR}.${PRINT_VERSION_
 set(PRINT_VERSION_STRING "v${PRINT_VERSION}")
 set(CPACK_PACKAGE_VERSION "1.0.0") 
 
-include_directories(formatter_lib/ formatter_ex_lib/ solver_lib/)
-
-add_library(formatter STATIC formatter_lib/formatter.h formatter_lib/formatter.cpp)
-add_library(formatter_ex STATIC formatter_ex_lib/formatter_ex.h formatter_ex_lib/formatter_ex.cpp)
-
-target_link_libraries(formatter_ex formatter)
-
-add_library(solver STATIC solver_lib/solver.h solver_lib/solver.cpp)
-add_executable(equation solver_application/equation.cpp)
-target_link_libraries(equation formatter_ex solver)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/solver_application)
 
 include(CPackConfig.cmake)
