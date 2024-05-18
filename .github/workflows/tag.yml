@@ -23,6 +23,7 @@ jobs:
         cd _build
         cpack -G "TGZ"
         cd ..
+        mkdir artifacts
         mv _build/*.tar.gz artifacts
         tree artifacts
     - name: Build deb
