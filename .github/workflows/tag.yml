@@ -32,5 +32,5 @@ jobs:
     - name: Make a release
       uses: ncipollo/release-action@v1.14.0
       with:
-        artifacts: "build/*.deb,build/*.rpm,build/*.tar.gz,build/*.zip"
+        artifacts: "build/*.deb,build/*.rpm,build/*.tar.gz,build/*.zip,build/*.dmg,build/*.msi"
         token: ${{ secrets.GITHUB_TOKEN }}
