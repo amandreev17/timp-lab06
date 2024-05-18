@@ -1,31 +1,42 @@
-name: CMake
+
+name: C/C++ CI2
 
 on:
- push:
+  push:
+    tags:
+      - 'v*.*.*.*'
 
-jobs: 
-
-  build_packages_Linux:
+jobs:
+  build:
 
     runs-on: ubuntu-latest
 
+    env:
+      REF: ${{github.ref}}
+
     steps:
     - uses: actions/checkout@v3
-
-    - name: Configure Solver
-      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -D PRINT_VERSION=${GITHUB_REF_NAME#v}
-
-    - name: Build Solver
-      run: cmake --build ${{github.workspace}}/build
-
-    - name: Build package
-      run: cmake --build ${{github.workspace}}/build --target package
-
-    - name: Build source package
-      run: cmake --build ${{github.workspace}}/build --target package_source
-
-    - name: Make a release
-      uses: ncipollo/release-action@v1.10.0
+    - name: Build tar.gz
+      run: |
+        cmake -H. -B_build
+        cmake --build _build
+        cd _build
+        cpack -G "TGZ"
+        cd ..
+        mv _build/*.tar.gz artifacts
+        tree artifacts
+    - name: Build deb
+      run: |
+        cmake -H. -B_build
+        cmake --build _build
+        cd _build
+        cpack -G DEB
+        cd ..
+        mv _build/*.deb artifacts
+        tree artifacts
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v4
       with:
-        artifacts: "build/*.deb,build/*.tar.gz,build/*.zip"
-        token: ${{ secrets.GITHUB_TOKEN }}
+        name: artifacts
+        path: |
+          artifacts
