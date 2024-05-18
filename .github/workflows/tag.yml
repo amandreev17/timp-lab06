@@ -8,12 +8,9 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     env:
       REF: ${{github.ref}}
-
     steps:
     - uses: actions/checkout@v3
     - name: Build tar.gz
@@ -45,6 +42,8 @@ jobs:
           artifacts
   build2:
     runs-on: osx
+    env:
+      REF: ${{github.ref}}
     steps:
     - uses: actions/checkout@v3
     - name: Build dmg
@@ -65,6 +64,8 @@ jobs:
 
   build3:
     runs-on: windows-latest
+    env:
+      REF: ${{github.ref}}
     steps:
     - uses: actions/checkout@v3
     - name: Build msi
