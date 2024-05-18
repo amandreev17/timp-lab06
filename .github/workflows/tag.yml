@@ -30,6 +30,8 @@ jobs:
         cd _build
         cpack -G DEB
         cd ..
+        cmake -H. -B_build -DCPACK_GENERATOR=DEB
+        cmake --build _build --target package
         mv _build/*.deb artifacts
         tree artifacts
     - name: Build rpm
