@@ -23,12 +23,12 @@ jobs:
         mkdir artifacts
         mv _build/*.tar.gz artifacts
         tree artifacts
-    - name: Build rpm
+    - name: Build dep
       run: |
         cmake -H. -B_build
         cmake --build _build
         cd _build
-        cpack -G RPM
+        cpack -G "DEB"
         cd ..
         mv _build/*.rpm artifacts
         tree artifacts
