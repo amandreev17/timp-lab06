@@ -23,17 +23,6 @@ jobs:
         mkdir artifacts
         mv _build/*.tar.gz artifacts
         tree artifacts
-    - name: Build deb
-      run: |
-        cmake -H. -B_build
-        cmake --build _build
-        cd _build
-        cpack -G "DEB"
-        cd ..
-        cmake -H. -B_build -DCPACK_GENERATOR="DEB"
-        cmake --build _build --target package
-        mv _build/*.deb artifacts
-        tree artifacts
     - name: Build rpm
       run: |
         cmake -H. -B_build
