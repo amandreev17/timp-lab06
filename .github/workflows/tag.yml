@@ -23,6 +23,9 @@ jobs:
         cd _build
         cpack -G "TGZ"
         cd ..
+        cmake -H. -B_build -DCPACK_GENERATOR="TGZ"
+        cmake --build _build --target package
+        перемещение собранного пакета
         mkdir artifacts
         mv _build/*.tar.gz artifacts
         tree artifacts
