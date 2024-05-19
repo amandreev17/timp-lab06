@@ -1,91 +1,92 @@
-name: C/C++ CI2
+name: CMake
 
 on:
-  push:
-    tags:
-      - 'v*.*.*.*'
-jobs:
-  build:
+ push:
+   tags:
+     - v*.*.*
+
+jobs: 
+
+  build_packages_Linux:
+
     runs-on: ubuntu-latest
+    
     permissions:
       contents: write
-    env:
-      REF: ${{github.ref}}
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build tar.gz
-      run: |
-        cmake -H. -B_build
-        cmake --build _build
-        cd _build
-        cpack -G "TGZ"
-        cd ..
-        cmake -H. -B_build -DCPACK_GENERATOR="TGZ"
-        cmake --build _build --target package
-        mkdir artifacts
-        mv _build/*.tar.gz artifacts
-        tree artifacts
-    - name: Build deb
-      run: |
-        cmake -H. -B_build
-        cmake --build _build
-        cd _build
-        cpack -G DEB
-        cd ..
-        mv _build/*.deb artifacts
-        tree artifacts
-    - name: Build rpm
-      run: |
-        cmake -H. -B_build
-        cmake --build _build
-        cd _build
-        cpack -G RPM
-        cd ..
-        mv _build/*.rpm artifacts
-        tree artifacts
-    - name: Archive artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: artifacts
-        path: |
-          artifacts
-              
-  build2:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build dmg
-      run: |
-        cmake -H. -B_build
-        cmake --build _build
-        cd _build
-        cpack -G DragNDrop
-        cd ..
-        mv _build/*.dmg artifacts
-        tree artifacts
-    - name: Archive artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: artifacts
-        path: |
-          artifacts
 
-  build3:
-    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Build msi
-      run: |
-        cmake -H. -B_build
-        cmake --build _build
-        cd _build
-        cpack -G WIX
-        cd ..
-        mv _build/*.msi artifacts
-        tree artifacts
-    - name: Archive artifacts
-      uses: actions/upload-artifacts@v4
+
+    - name: Configure Solver
+      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -D PRINT_VERSION=${GITHUB_REF_NAME#v}
+
+    - name: Build Solver
+      run: cmake --build ${{github.workspace}}/build
+
+    - name: Build package
+      run: cmake --build ${{github.workspace}}/build --target package
+
+    - name: Build source package
+      run: cmake --build ${{github.workspace}}/build --target package_source
+
+    - name: Make a release
+      uses: ncipollo/release-action@v1.14.0
       with:
-        name: artifacts
-        path: |
-          artifacts
+        artifacts: "build/*.deb,build/*.rpm,build/*.tar.gz,build/*.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+  build_packages_Macos:
+
+    runs-on: macos-latest
+    
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configure Solver
+      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -D PRINT_VERSION=${GITHUB_REF_NAME#v}
+
+    - name: Build Solver
+      run: cmake --build ${{github.workspace}}/build
+
+    - name: Build package
+      run: cmake --build ${{github.workspace}}/build --target package
+
+    - name: Build source package
+      run: cmake --build ${{github.workspace}}/build --target package_source
+
+    - name: Make a release
+      uses: ncipollo/release-action@v1.14.0
+      with:
+        artifacts: "build/*.dmg"
+        token: ${{ secrets.GITHUB_TOKEN }}
+  
+  build_packages_Windows:
+
+    runs-on: windows-latest
+    
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configure Solver
+      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -D PRINT_VERSION=${GITHUB_REF_NAME#v}
+
+    - name: Build Solver
+      run: cmake --build ${{github.workspace}}/build
+
+    - name: Build package
+      run: cmake --build ${{github.workspace}}/build --target package
+
+    - name: Build source package
+      run: cmake --build ${{github.workspace}}/build --target package_source
+
+    - name: Make a release
+      uses: ncipollo/release-action@v1.14.0
+      with:
+        artifacts: "build/*.msi"
+        token: ${{ secrets.GITHUB_TOKEN }}
