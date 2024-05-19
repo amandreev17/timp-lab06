@@ -21,7 +21,7 @@ jobs:
     - name: Build Solver
       run: cmake --build build
     - name: Build package
-      run: cmake --build --target package
+      run: cmake --build build --target package
     - name: Build source package
       run: cmake --build build --target package_source
 
