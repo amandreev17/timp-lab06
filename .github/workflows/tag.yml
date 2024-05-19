@@ -9,25 +9,21 @@ jobs:
 
   build_packages_Linux:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     permissions:
       contents: write
 
     steps:
     - uses: actions/checkout@v3
-
     - name: Configure Solver
-      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -D PRINT_VERSION=${GITHUB_REF_NAME#v}
-
+      run: cmake -B build
     - name: Build Solver
-      run: cmake --build ${{github.workspace}}/build
-
+      run: cmake --build build
     - name: Build package
-      run: cmake --build ${{github.workspace}}/build --target package
-
+      run: cmake --build --target package
     - name: Build source package
-      run: cmake --build ${{github.workspace}}/build --target package_source
+      run: cmake --build build --target package_source
 
     - name: Make a release
       uses: ncipollo/release-action@v1.14.0
