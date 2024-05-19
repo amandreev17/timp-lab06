@@ -1,38 +1,37 @@
 include(InstallRequiredSystemLibraries)
 
-set(CPACK_PACKAGE_CONTACT tima.temirov.2005@mail.ru)
-set(CPACK_PACKAGE_VERSION_MAJOR ${PRINT_VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${PRINT_VERSION_MINOR})
-set(CPACK_PACKAGE_VERSION_PATCH ${PRINT_VERSION_PATCH})
-set(CPACK_PACKAGE_VERSION_TWEAK ${PRINT_VERSION_TWEAK})
+set(CPACK_PACKAGE_CONTACT mihail_160505@@mail.ru)
 set(CPACK_PACKAGE_VERSION ${PRINT_VERSION})
-set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_CURRENT_SOURCE_DIR}/DESCRIPTION)
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "static C++ library for printing")
+set(CPACK_PACKAGE_NAME "solver")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "static C++ library for solver")
+set(CPACK_PACKAGE_VENDOR "kuznetsovvvv")
+set(CPACK_PACKAGE_PACK_NAME "solver-${PRINT_VERSION}")
 
-set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE)
+set(CPACK_SOURCE_INSTALLED_DIRECTORIES 
+  "${CMAKE_SOURCE_DIR}/solver_application; solver_application"
+  "${CMAKE_SOURCE_DIR}/solver_lib; solver_lib"
+  "${CMAKE_SOURCE_DIR}/formatter_ex_lib; formatter_ex_lib"
+  "${CMAKE_SOURCE_DIR}/formatter_lib; formatter_lib")
+
 set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_SOURCE_DIR}/README.md)
 
-set(CPACK_RPM_PACKAGE_NAME "print-devel")
-set(CPACK_RPM_PACKAGE_LICENSE "MIT")
-set(CPACK_RPM_PACKAGE_GROUP "print")
-set(CPACK_RPM_CHANGELOG_FILE ${CMAKE_CURRENT_SOURCE_DIR}/ChangeLog.md)
-set(CPACK_RPM_PACKAGE_RELEASE 1)
+set(CPACK_SOURCE_GENERATOR "TGZ;ZIP")
 
-set(CPACK_DEBIAN_PACKAGE_NAME "libprint-dev")
 set(CPACK_DEBIAN_PACKAGE_PREDEPENDS "cmake >= 3.0")
 set(CPACK_DEBIAN_PACKAGE_RELEASE 1)
+
+set(CPACK_DEBIAN_PACKAGE_VERSION ${PRINT_VERSION})
+set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "all")
+set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "solves equations")
+
+set(CPACK_GENERATOR "DEB;RPM")
+
+set(CPACK_RPM_PACKAGE_SUMMARY "solves equations")
 
 # Имя созданного пакета
 set(CPACK_DMG_VOLUME_NAME "solverOS")
 # Минимальная версия OSX
 set(CPACK_OSX_PACKAGE_VERSION 10.5)
-set(CPACK_WIX_LICENSE_RTF ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt)
-
-# Помощь в установке пакета
-set(CPACK_NSIS_HELP_LINK https://github.com/kbrotskiy/hw06)
-# Помощь в использовании
-set(CPACK_NSIS_URL_INFO_ABOUT https://github.com/kbrotskiy/hw06)
-# Контактная информация
-set(CPACK_NSIS_CONTACT brotskia_26@mail.ru)
+set(CPACK_GENERATOR "DragonNDrop;WIX")
 
 include(CPack)
