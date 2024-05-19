@@ -9,7 +9,7 @@ jobs:
 
   build_packages_Linux:
 
-    runs-on: osx
+    runs-on: macos-latest
     
     permissions:
       contents: write
