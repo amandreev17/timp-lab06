@@ -28,6 +28,5 @@ set(CPACK_GENERATOR "DEB;RPM")
 
 set(CPACK_RPM_PACKAGE_SUMMARY "solves equations")
 
-set(CPACK_GENERATOR "DragNDrop; WiX")
 
 include(CPack)
