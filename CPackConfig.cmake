@@ -28,12 +28,6 @@ set(CPACK_GENERATOR "DEB;RPM")
 
 set(CPACK_RPM_PACKAGE_SUMMARY "solves equations")
 
-# Имя созданного пакета
-set(CPACK_DMG_VOLUME_NAME "solverOS")
-# Минимальная версия OSX
-set(CPACK_OSX_PACKAGE_VERSION 10.5)
-set(CPACK_WIX_LICENSE_RTF ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt)
-
-set(CPACK_GENERATOR "DragNDrop")
+set(CPACK_GENERATOR "DragNDrop; WiX")
 
 include(CPack)
