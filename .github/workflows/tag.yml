@@ -9,7 +9,10 @@ jobs:
 
   build_packages_Linux:
 
-    runs-on: ubuntu-latest
+    runs-on: 
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
     
     permissions:
       contents: write
@@ -32,61 +35,6 @@ jobs:
     - name: Make a release
       uses: ncipollo/release-action@v1.14.0
       with:
-        artifacts: "build/*.deb,build/*.rpm,build/*.tar.gz,build/*.zip"
+        artifacts: "build/*.deb,build/*.rpm,build/*.tar.gz,build/*.zip,build/*.dmg,build/*.msi"
         token: ${{ secrets.GITHUB_TOKEN }}
         
-  build_packages_Macos:
-
-    runs-on: macos-latest
-    
-    permissions:
-      contents: write
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Configure Solver
-      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -D PRINT_VERSION=${GITHUB_REF_NAME#v}
-
-    - name: Build Solver
-      run: cmake --build ${{github.workspace}}/build
-
-    - name: Build package
-      run: cmake --build ${{github.workspace}}/build --target package
-
-    - name: Build source package
-      run: cmake --build ${{github.workspace}}/build --target package_source
-
-    - name: Make a release
-      uses: ncipollo/release-action@v1.14.0
-      with:
-        artifacts: "build/*.dmg"
-        token: ${{ secrets.GITHUB_TOKEN }}
-  
-  build_packages_Windows:
-
-    runs-on: windows-latest
-    
-    permissions:
-      contents: write
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Configure Solver
-      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -D PRINT_VERSION=${GITHUB_REF_NAME#v}
-
-    - name: Build Solver
-      run: cmake --build ${{github.workspace}}/build
-
-    - name: Build package
-      run: cmake --build ${{github.workspace}}/build --target package
-
-    - name: Build source package
-      run: cmake --build ${{github.workspace}}/build --target package_source
-
-    - name: Make a release
-      uses: ncipollo/release-action@v1.14.0
-      with:
-        artifacts: "build/*.msi"
-        token: ${{ secrets.GITHUB_TOKEN }}
