@@ -28,6 +28,6 @@ jobs:
     - name: Make a release
       uses: ncipollo/release-action@v1.14.0
       with:
-        artifacts: "build/*.deb,build/*.rpm,build/*.tar.gz,build/*.zip,build/*.dmg,build/*.msi"
+        artifacts: "build/*.deb,build/*.rpm,build/*.tar.gz,build/*.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
         
